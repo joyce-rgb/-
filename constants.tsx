@@ -5,11 +5,11 @@ export const DEFAULT_WATERMARK_TEXT = "僅供公司設立使用";
 
 export const DEFAULT_CONFIG: WatermarkConfig = {
   text: DEFAULT_WATERMARK_TEXT,
-  fontSize: 24,
-  opacity: 0.25,
+  fontSize: 26,
+  opacity: 0.3,
   color: "#FF0000",
   angle: -30,
-  density: 0.1
+  density: 0.15
 };
 
 export const UI_COLORS = {

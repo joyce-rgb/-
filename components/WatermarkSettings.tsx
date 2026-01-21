@@ -41,16 +41,16 @@ const WatermarkSettings: React.FC<WatermarkSettingsProps> = ({ config, onChange 
           </svg>
           浮水印設定
         </h3>
-        <span className="text-[10px] bg-slate-100 text-slate-500 px-2 py-0.5 rounded-full font-medium">離線安全</span>
+        <span className="text-[10px] bg-emerald-50 text-emerald-600 px-2 py-0.5 rounded-full font-bold border border-emerald-100">100% 離線處理</span>
       </div>
       
       <div className="space-y-3">
-        <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider">浮水印文字</label>
+        <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider">自訂浮水印文字</label>
         <textarea 
           name="text"
           value={config.text}
           onChange={handleChange}
-          className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all text-sm font-medium resize-none"
+          className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all text-sm font-medium resize-none shadow-inner"
           rows={2}
           placeholder="請輸入浮水印文字..."
         />
@@ -75,7 +75,7 @@ const WatermarkSettings: React.FC<WatermarkSettingsProps> = ({ config, onChange 
         <div className="space-y-2">
           <div className="flex justify-between items-center">
             <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider">透明度</label>
-            <span className="text-xs text-slate-400">{Math.round(config.opacity * 100)}%</span>
+            <span className="text-xs text-slate-400 font-mono">{Math.round(config.opacity * 100)}%</span>
           </div>
           <input 
             type="range" 
@@ -89,12 +89,12 @@ const WatermarkSettings: React.FC<WatermarkSettingsProps> = ({ config, onChange 
         <div className="space-y-2">
           <div className="flex justify-between items-center">
             <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider">字體大小</label>
-            <span className="text-xs text-slate-400">{config.fontSize}px</span>
+            <span className="text-xs text-slate-400 font-mono">{config.fontSize}px</span>
           </div>
           <input 
             type="range" 
             name="fontSize"
-            min="12" max="64" step="2"
+            min="12" max="80" step="2"
             value={config.fontSize}
             onChange={handleChange}
             className="w-full h-1.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
@@ -103,7 +103,7 @@ const WatermarkSettings: React.FC<WatermarkSettingsProps> = ({ config, onChange 
         <div className="space-y-2">
           <div className="flex justify-between items-center">
             <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider">旋轉角度</label>
-            <span className="text-xs text-slate-400">{config.angle}°</span>
+            <span className="text-xs text-slate-400 font-mono">{config.angle}°</span>
           </div>
           <input 
             type="range" 
@@ -116,41 +116,4 @@ const WatermarkSettings: React.FC<WatermarkSettingsProps> = ({ config, onChange 
         </div>
         <div className="space-y-2">
           <div className="flex justify-between items-center">
-            <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider">鋪滿密度</label>
-            <span className="text-xs text-slate-400">{Math.round(config.density * 100)}%</span>
-          </div>
-          <input 
-            type="range" 
-            name="density"
-            min="0" max="0.8" step="0.05"
-            value={config.density}
-            onChange={handleChange}
-            className="w-full h-1.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
-          />
-        </div>
-      </div>
-      
-      <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
-        <span className="text-xs font-semibold text-slate-500">印章顏色</span>
-        <div className="flex gap-3">
-          {[
-            { label: '紅色', value: '#FF0000' },
-            { label: '黑色', value: '#000000' },
-            { label: '藍色', value: '#0000FF' },
-            { label: '深灰', value: '#444444' }
-          ].map(color => (
-            <button
-              key={color.value}
-              title={color.label}
-              onClick={() => onChange({...config, color: color.value})}
-              className={`w-7 h-7 rounded-full border-2 transition-all ${config.color === color.value ? 'border-blue-500 ring-2 ring-blue-100 scale-110' : 'border-slate-200 opacity-60 hover:opacity-100'}`}
-              style={{ backgroundColor: color.value }}
-            />
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default WatermarkSettings;
+            <label className="
