@@ -1,5 +1,6 @@
 
 import { WatermarkConfig } from '../types';
+import { jsPDF } from 'jspdf';
 
 export const applyWatermark = (
   imageSrc: string,
@@ -66,4 +67,44 @@ export const downloadImage = (dataUrl: string, filename: string) => {
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
+};
+
+export const generatePDF = async (images: (string | null)[], filename: string) => {
+  const validImages = images.filter((img): img is string => img !== null);
+  if (validImages.length === 0) return;
+
+  const pdf = new jsPDF('p', 'mm', 'a4');
+  const pageWidth = pdf.internal.pageSize.getWidth();
+  const pageHeight = pdf.internal.pageSize.getHeight();
+  const margin = 10;
+  const availableWidth = pageWidth - (margin * 2);
+  
+  for (let i = 0; i < validImages.length; i++) {
+    const imgData = validImages[i];
+    
+    // Load image to get its dimensions
+    const img = await new Promise<HTMLImageElement>((resolve) => {
+      const el = new Image();
+      el.src = imgData;
+      el.onload = () => resolve(el);
+    });
+
+    const imgAspectRatio = img.height / img.width;
+    const drawWidth = availableWidth;
+    const drawHeight = drawWidth * imgAspectRatio;
+
+    // Calculate Y position - stack images with a small gap
+    const yPos = margin + (i * (drawHeight + 10));
+
+    // If second image would go off page, normally we'd add a page, 
+    // but for ID card front/back on A4, they should fit.
+    if (yPos + drawHeight > pageHeight && i > 0) {
+      pdf.addPage();
+      pdf.addImage(imgData, 'PNG', margin, margin, drawWidth, drawHeight);
+    } else {
+      pdf.addImage(imgData, 'PNG', margin, yPos, drawWidth, drawHeight);
+    }
+  }
+
+  pdf.save(filename);
 };
